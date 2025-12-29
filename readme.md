@@ -12,7 +12,7 @@ This annoys me as I like switching between dark and light mode.
 
 ## Installing
 * Clone this repository
-* Run `cargo build --release` 
-* Run `./install.sh`. \
+* Run `meson setup _build --prefix="$HOME/.local" && meson compile -C _build`
+* Run `meson install -C _build`. \
   This will install a systemd service that waits for changes to your color scheme preference,
   automatically any changes to the legacy `gtk-theme` preference.
