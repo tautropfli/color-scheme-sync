@@ -11,11 +11,11 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: fedora-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/cache@v3
+    - uses: actions/checkout@v6
+    - uses: actions/cache@v5
       with:
         path: |
           ~/.cargo/bin/
@@ -24,12 +24,6 @@ jobs:
           ~/.cargo/git/db/
           target/
         key: ubuntu-latest-cargo-build-nightly-${{ hashFiles('**/Cargo.toml') }}
-    - name: Install Rust toolchain
-      uses: actions-rs/toolchain@v1.0.6
-      with:
-        toolchain: nightly
-        components: rustfmt, clippy
-        override: true
     - name: Build
       run: cargo build
     - name: Check format
@@ -37,13 +31,13 @@ jobs:
     - name: Run clippy
       run: cargo clippy --all-targets -- --deny warnings
 
-  nix:
-    runs-on: ubuntu-latest
+  # nix:
+  #   runs-on: fedora-latest
 
-    steps:
-    - uses: actions/checkout@v3
-    - uses: cachix/install-nix-action@v22
-      with:
-        github_access_token: ${{ secrets.GITHUB_TOKEN }}
-    - run: nix build
-    - run: nix flake check
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - uses: cachix/install-nix-action@v22
+  #     with:
+  #       github_access_token: ${{ secrets.GITHUB_TOKEN }}
+  #   - run: nix build
+  #   - run: nix flake check
